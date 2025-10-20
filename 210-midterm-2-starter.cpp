@@ -178,8 +178,26 @@ public:
             head = head->next;
             delete temp;
         }
-        // going to add node walking helpers later here maybe
-    }
+        }
+        // node walking helpers
+
+        bool empty() { return head == nullptr; }
+
+        int size() const {
+            int count = 0;
+            for (Node* current = head; current != nullptr; current = current->next) {
+                count++;
+            }
+            return count;
+        }
+
+        void print_names(const vector<string>& names) const{
+            if (!head) {
+             
+        }
+
+
+
     void print() {
         Node* current = head;
         if (!current) {
@@ -242,11 +260,11 @@ int main() {
         cout << "\nMinute " << minute << ":\n";
 
         // generate random probabilities for each event
-        int pServe = rand() % 100;
-        int pJoin = rand() % 100;
-        int pRear = rand() % 100;
-        int pAny = rand() % 100;
-        int pVIP = rand() % 100;
+        int pServe = rand() % 100 + 1;
+        int pJoin = rand() % 100 + 1;
+        int pRear = rand() % 100 + 1;
+        int pAny = rand() % 100 + 1;
+        int pVIP = rand() % 100 + 1;
 
         // independent "if" so multiple events can occur
 
@@ -257,30 +275,31 @@ int main() {
         }
 
         // EVENT 2: 60% chance to have a new person join rear
-        else if (PJoin <= 60) {
+        if (pJoin <= 60) {
             int idx = rand() % 100;
             line.push_back(idx);
             cout << " " << names[idx] << " joined rear\n";
         }
 
         // EVENT 3: 20% chance rear person leaves mad
-        else if (pRear <= 20;) {
+        if (pRear <= 20;) {
             line.pop_back();
             cout << "  rear left (mad)\n"; 
         }
 
         // EVENT 4: 10% chance random person leaves
-        else if (pAny <= 10) {
+        if (pAny <= 10) {
             line.delete_pos(5);
             cout << "   random person left\n";
         }
 
         // EVENT 5: 10% chance VIP cuts to front
-        else if (pVIP <= 10) {
+        if (pVIP <= 10) {
             int idx = rand() % 100;
             line.push_front(idx);
             cout << "  VIP " << names[idx] << " to front!!\n";
         }
+
         // print current line
         cout << "Line now (indicies): ";
         line.print();
