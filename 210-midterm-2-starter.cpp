@@ -216,8 +216,20 @@ int main() {
     fin.close();
 
     cout << "Loaded " << names.size() << " names.\n";
-    for (int i = 0; i < 5; i++) cout << names[i] << " ";
+    for (int i = 0; i < 5 && i < (int)names.size(); ++i) cout << names[i] << " ";
     cout << "\b";
+    // need to add srand
 
+    // make line and add 5 peeople
+    DoublyLinkedList line;
+
+    cout << "\nStore opens:\n";
+    for (int i = 0; i < 5 ++i) {
+        int idx = rand() 100;
+        cout << names[idx] << " joins the line.\n";
+        line.push_back(idx); // store index in list
+    }
+    cout << "Current line (indicies): ";
+    line.print();
     return 0;
 }
