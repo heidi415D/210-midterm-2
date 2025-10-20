@@ -286,45 +286,51 @@ int main() {
         cout << "\nMinute " << minute << ":\n";
 
         // generate random probabilities for each event
-        int pServe = rand() % 100 + 1;
-        int pJoin = rand() % 100 + 1;
-        int pRear = rand() % 100 + 1;
-        int pAny = rand() % 100 + 1;
-        int pVIP = rand() % 100 + 1;
+        int pServe = rand() % 100 + 1; // 40% serve front
+        int pJoin = rand() % 100 + 1; // 60% join rear
+        int pRear = rand() % 100 + 1; // 20% rear leaves
+        int pAny = rand() % 100 + 1; // 10% any leaves
+        int pVIP = rand() % 100 + 1; // 10% VIP joins front
 
         // independent "if" so multiple events can occur
 
         // EVENT 1: 40% chance to serve front
-        if (pServe <= 40) {
-            line.delete_pos(0); // serve front
+        if (pServe <= 40 && !line.empty()) {
+            line.delete_pos(1); // serve front , front positon 1
             cout << "   served front\n";
         }
 
         // EVENT 2: 60% chance to have a new person join rear
         if (pJoin <= 60) {
-            int idx = rand() % 100;
+            int r = rand() % (MAX_NR - MIN_NR + 1) + MIN_NR;
+            int idx = r % (int)names.size();
             line.push_back(idx);
             cout << " " << names[idx] << " joined rear\n";
         }
 
         // EVENT 3: 20% chance rear person leaves mad
-        if (pRear <= 20;) {
+        if (pRear <= 20 && !line.empty()) {
             line.pop_back();
             cout << "  rear left (mad)\n"; 
         }
 
         // EVENT 4: 10% chance random person leaves
-        if (pAny <= 10 && line.size() >= 1) {
-            // choose random position between 2 and n-1
+        if (pAny <= 10) {
             int n = line.size();
-            int pos = (rand() % (n - 2)) + 2;  // min max format
-            line.delete_pos(pos);
-            cout << "  someone in middle left (pos " << pos << ")\n";
-            }
+            if (n >= 3) {
+                // pick 2..(n-1) MIN..MAX formul
+                int pos = (rand() % ((n - 1) - 2 + 1)) + 2;
+                line.delete_pos(pos);
+                cout << "  someone in middle left (pos " << pos << ")\n";
+        } else {
+                cout << "  (skip middle leave; line too small)\n";
+    }
+}
 
         // EVENT 5: 10% chance VIP cuts to front
         if (pVIP <= 10) {
-            int idx = rand() % 100;
+            int r = rand() % (MAX_NR - MIN_NR + 1) + MIN_NR;
+            int idx = r % (int)names.size();
             line.push_front(idx);
             cout << "  VIP " << names[idx] << " to front!!\n";
         }
