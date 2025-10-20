@@ -209,6 +209,8 @@ public:
 
 int main() {
     srand(time(0)); // seed random number generator
+
+    // read all names from file into vector
     ifstream fin("names.txt");
     vector<string> names;
     string nm;
@@ -221,10 +223,12 @@ int main() {
     cout << "\b";
     // need to add srand
 
-    // make line and add 5 peeople
+    // make an empty doubly linked list that will represent the line
     DoublyLinkedList line;
 
     cout << "\nStore opens:\n";
+
+    // initial 5 people join line
     for (int i = 0; i < 5 ++i) {
         int idx = rand() 100;
         cout << names[idx] << " joins the line.\n";
@@ -237,27 +241,47 @@ int main() {
     for (int minute = 1; minute <= 20; ++minute) {
         cout << "\nMinute " << minute << ":\n";
 
+        // generate random probabilities for each event
         int pServe = rand() % 100;
         int pJoin = rand() % 100;
         int pRear = rand() % 100;
         int pAny = rand() % 100;
         int pVIP = rand() % 100;
 
+        // independent "if" so multiple events can occur
+
+        // EVENT 1: 40% chance to serve front
         if (pServe <= 40) {
             line.delete_pos(0); // serve front
             cout << "   served front\n";
         }
+
+        // EVENT 2: 60% chance to have a new person join rear
         else if (PJoin <= 60) {
             int idx = rand() % 100;
             line.push_back(idx);
             cout << " " << names[idx] << " joined rear\n";
         }
+
+        // EVENT 3: 20% chance rear person leaves mad
         else if (pRear <= 20;) {
             line.pop_back();
             cout << "  rear left (mad)\n"; 
         }
-        else if // this will be random person
-        else if // VIP joins front
+
+        // EVENT 4: 10% chance random person leaves
+        else if (pAny <= 10) {
+            line.delete_pos(5);
+            cout << "   random person left\n";
+        }
+
+        // EVENT 5: 10% chance VIP cuts to front
+        else if (pVIP <= 10) {
+            int idx = rand() % 100;
+            line.push_front(idx);
+            cout << "  VIP " << names[idx] << " to front!!\n";
+        }
+        // print current line
         cout << "Line now (indicies): ";
         line.print();
     }
