@@ -207,8 +207,17 @@ public:
 };
 
 int main() {
-    cout << MIN_NR + MIN_LS + MAX_NR + MAX_LS;  // dummy statement to avoid compiler warning
+    // seed ? load names
+    ifstream fin("names.txt");
+    vector<string> names;
+    string nm;
+    while (fin >> nm)
+        names.push_back(nm);
+    fin.close();
 
-    
+    cout << "Loaded " << names.size() << " names.\n";
+    for (int i = 0; i < 5; i++) cout << names[i] << " ";
+    cout << "\b";
+
     return 0;
 }
