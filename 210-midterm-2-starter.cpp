@@ -178,6 +178,7 @@ public:
             head = head->next;
             delete temp;
         }
+        // going to add node walking helpers later here maybe
     }
     void print() {
         Node* current = head;
@@ -207,7 +208,7 @@ public:
 };
 
 int main() {
-    // seed ? load names
+    srand(time(0)); // seed random number generator
     ifstream fin("names.txt");
     vector<string> names;
     string nm;
@@ -231,5 +232,35 @@ int main() {
     }
     cout << "Current line (indicies): ";
     line.print();
+
+    // sim 20 min
+    for (int minute = 1; minute <= 20; ++minute) {
+        cout << "\nMinute " << minute << ":\n";
+
+        int pServe = rand() % 100;
+        int pJoin = rand() % 100;
+        int pRear = rand() % 100;
+        int pAny = rand() % 100;
+        int pVIP = rand() % 100;
+
+        if (pServe <= 40) {
+            line.delete_pos(0); // serve front
+            cout << "   served front\n";
+        }
+        else if (PJoin <= 60) {
+            int idx = rand() % 100;
+            line.push_back(idx);
+            cout << " " << names[idx] << " joined rear\n";
+        }
+        else if ()
+    }
+
+
+
+
+
+
+
+
     return 0;
 }
