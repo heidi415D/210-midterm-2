@@ -167,34 +167,51 @@ public:
             tail = tail->prev;
             tail->next = nullptr;
         }
-        else
+        else {
             head = tail = nullptr;
+        }
         delete temp;
     }
+    
 
-    ~DoublyLinkedList() {
-        while (head) {
-            Node* temp = head;
-            head = head->next;
-            delete temp;
-        }
-        }
-        // node walking helpers
+   ~DoublyLinkedList() {
+    while (head) {
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
 
-        bool empty() { return head == nullptr; }
+// node walking helpers 
+bool empty() const { return head == nullptr; }
 
-        int size() const {
-            int count = 0;
-            for (Node* current = head; current != nullptr; current = current->next) {
-                count++;
-            }
-            return count;
-        }
+int size() const {
+    int count = 0;
+    for (Node* current = head; current != nullptr; current = current->next) {
+        count++;
+    }
+    return count;
+}
 
-        void print_names(const vector<string>& names) const{
-            if (!head) {
-             
-        }
+void print_names(const vector<string>& names) const {
+    if (!head) {
+        cout << "List is empty." << endl;
+        return;
+    }
+    Node* cur = head;
+    while (cur) {
+        int idx = cur->data;
+        if (idx >= 0 && idx < (int)names.size())
+            cout << names[idx];
+        else
+            cout << "(?)";
+        if (cur->next) cout << " ";
+        cur = cur->next;
+    }
+    cout << endl;
+}
+
+       
 
 
 
@@ -288,10 +305,13 @@ int main() {
         }
 
         // EVENT 4: 10% chance random person leaves
-        if (pAny <= 10) {
-            line.delete_pos(5);
-            cout << "   random person left\n";
-        }
+        if (pAny <= 10 && line.size() >= 1) {
+            // choose random position between 2 and n-1
+            int n = line.size();
+            int pos = (rand() % (n - 2)) + 2;  // min max format
+            line.delete_pos(pos);
+            cout << "  someone in middle left (pos " << pos << ")\n";
+            }
 
         // EVENT 5: 10% chance VIP cuts to front
         if (pVIP <= 10) {
@@ -301,32 +321,13 @@ int main() {
         }
 
         // print current line
-        cout << "Line now (indicies): ";
-        line.print();
+        cout << "Line now: ";
+        line.print_names(names);
     }
 
-
-
-
-
-
-
-
+    cout << "\n--- Simulation End ---\n";
     return 0;
 }
-
-
-
-
-// Hints Generate a random number between MIN and MAX:
-
-//value = rand() % (MAX-MIN+1) + MIN;
-
-// Code a 40% probability of Event A happening:
-
-// prob = rand() % 100 + 1  // returns random number 1-100
-// if (prob <= 40) {
-    // perform Event A
 
 // this for random int between MIN_NR and MAX_NR:
 int idx = rand() % (MAX_NR = MIN_NR + 1) + MIN_NR;
