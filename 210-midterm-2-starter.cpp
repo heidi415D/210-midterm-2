@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 using namespace std;
 
 const int MIN_NR = 10, MAX_NR = 99, MIN_LS = 5, MAX_LS = 20;
@@ -173,47 +174,42 @@ public:
         delete temp;
     }
     
-
-   ~DoublyLinkedList() {
-    while (head) {
-        Node* temp = head;
-        head = head->next;
-        delete temp;
+        ~DoublyLinkedList() {
+        // clean up all nodes
+        while (head) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+        }
     }
-}
 
-// node walking helpers 
-bool empty() const { return head == nullptr; }
+    // node-walking helpers 
+    bool empty() const { return head == nullptr; }
 
-int size() const {
-    int count = 0;
-    for (Node* current = head; current != nullptr; current = current->next) {
-        count++;
+    int size() const {
+        int count = 0;
+        for (Node* current = head; current != nullptr; current = current->next)
+            count++;
+        return count;
     }
-    return count;
-}
 
-void print_names(const vector<string>& names) const {
-    if (!head) {
-        cout << "List is empty." << endl;
-        return;
+    void print_names(const vector<string>& names) const {
+        if (!head) {
+            cout << "List is empty." << endl;
+            return;
+        }
+        Node* cur = head;
+        while (cur) {
+            int idx = cur->data;
+            if (idx >= 0 && idx < (int)names.size())
+                cout << names[idx];
+            else
+                cout << "(?)";
+            if (cur->next) cout << " ";
+            cur = cur->next;
+        }
+        cout << endl;
     }
-    Node* cur = head;
-    while (cur) {
-        int idx = cur->data;
-        if (idx >= 0 && idx < (int)names.size())
-            cout << names[idx];
-        else
-            cout << "(?)";
-        if (cur->next) cout << " ";
-        cur = cur->next;
-    }
-    cout << endl;
-}
-
-       
-
-
 
     void print() {
         Node* current = head;
@@ -230,7 +226,7 @@ void print_names(const vector<string>& names) const {
 
     void print_reverse() {
         Node* current = tail;
-        if (!current) { 
+        if (!current) {
             cout << "List is empty." << endl;
             return;
         }
@@ -240,7 +236,10 @@ void print_names(const vector<string>& names) const {
         }
         cout << endl;
     }
-};
+}; // class close
+
+
+
 
 int main() {
     srand(time(0)); // seed random number generator
@@ -253,24 +252,34 @@ int main() {
         names.push_back(nm);
     fin.close();
 
+        // quick sample so we know file loaded
     cout << "Loaded " << names.size() << " names.\n";
-    for (int i = 0; i < 5 && i < (int)names.size(); ++i) cout << names[i] << " ";
-    cout << "\b";
-    // need to add srand
+    for (int i = 0; i < 5 && i < (int)names.size(); ++i)
+        cout << names[i] << (i+1 < 5 ? " " : "");
+    cout << "\n";
 
-    // make an empty doubly linked list that will represent the line
+    // guard, if the file was empty exit out
+    if (names.empty()) {
+        cout << "No names loaded. Exiting.\n";
+        return 0;
+    }
+
     DoublyLinkedList line;
 
     cout << "\nStore opens:\n";
 
-    // initial 5 people join line
-    for (int i = 0; i < 5 ++i) {
-        int idx = rand() 100;
+    // initial 5 people join the line
+    for (int i = 0; i < 5; ++i) {
+        // range pattern random in [MIN_NR, MAX_NR]
+        int r = rand() % (MAX_NR - MIN_NR + 1) + MIN_NR;
+        // map to a valid index into names
+        int idx = r % (int)names.size();
         cout << names[idx] << " joins the line.\n";
-        line.push_back(idx); // store index in list
+        line.push_back(idx); // store index of the name
     }
-    cout << "Current line (indicies): ";
-    line.print();
+    cout << "Current line: ";
+    line.print_names(names); // show names instead of raw indices
+
 
     // sim 20 min
     for (int minute = 1; minute <= 20; ++minute) {
@@ -327,13 +336,4 @@ int main() {
 
     cout << "\n--- Simulation End ---\n";
     return 0;
-}
-
-// this for random int between MIN_NR and MAX_NR:
-int idx = rand() % (MAX_NR = MIN_NR + 1) + MIN_NR;
-
-// event probs
-int prob = rand() % 100 + 1;
-if (prob <= 40) {
-    // 40 chance
 }
