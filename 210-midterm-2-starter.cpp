@@ -252,7 +252,14 @@ int main() {
             line.push_back(idx);
             cout << " " << names[idx] << " joined rear\n";
         }
-        else if ()
+        else if (pRear <= 20;) {
+            line.pop_back();
+            cout << "  rear left (mad)\n"; 
+        }
+        else if // this will be random person
+        else if // VIP joins front
+        cout << "Line now (indicies): ";
+        line.print();
     }
 
 
@@ -263,4 +270,26 @@ int main() {
 
 
     return 0;
+}
+
+
+
+
+// Hints Generate a random number between MIN and MAX:
+
+//value = rand() % (MAX-MIN+1) + MIN;
+
+// Code a 40% probability of Event A happening:
+
+// prob = rand() % 100 + 1  // returns random number 1-100
+// if (prob <= 40) {
+    // perform Event A
+
+// this for random int between MIN_NR and MAX_NR:
+int idx = rand() % (MAX_NR = MIN_NR + 1) + MIN_NR;
+
+// event probs
+int prob = rand() % 100 + 1;
+if (prob <= 40) {
+    // 40 chance
 }
